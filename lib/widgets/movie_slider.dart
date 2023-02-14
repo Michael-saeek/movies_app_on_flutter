@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas_app/models/models.dart';
 import 'package:peliculas_app/widgets/widgets.dart';
 
 class MovieSlider extends StatelessWidget {
-  const MovieSlider({Key? key}) : super(key: key);
+  const MovieSlider({Key? key, required this.popularMovies}) : super(key: key);
+
+  final List<Movies> popularMovies;
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-
     return Container(
       width: double.infinity,
       height: 300,
@@ -20,9 +21,13 @@ class MovieSlider extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 10,
+            itemCount: popularMovies.length,
             itemBuilder: (context, int index) {
-              return const MoviePoster();
+              final movies = popularMovies[index];
+              return MoviePoster(
+                pathMovie: movies.posterPath,
+                titleMovie: movies.title,
+              );
             },
           ),
         )

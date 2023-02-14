@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas_app/models/models.dart';
 
 class MoviePoster extends StatelessWidget {
   const MoviePoster({
     super.key,
+    required this.titleMovie,
+    required this.pathMovie,
   });
+
+  final String titleMovie;
+  final String pathMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -20,23 +26,22 @@ class MoviePoster extends StatelessWidget {
               arguments: 'movie-slider'),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: const FadeInImage(
+            child: FadeInImage(
                 width: double.infinity,
                 height: 180,
-                placeholder: AssetImage('assets/no-image.jpg'),
+                placeholder: const AssetImage('assets/no-image.jpg'),
                 fit: BoxFit.cover,
-                image: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6a9Ehhg9JriStUwS3bihRe57WTCkUQqstyeNZmXWKW5bSDyH7t0ZneS6i_I72EQBcoTM&usqp=CAU')),
+                image: NetworkImage(pathMovie)),
           ),
         ),
         const SizedBox(
           height: 8,
         ),
-        const Text(
+        Text(
             maxLines: 2,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            'Luca Disney Pixar')
+            titleMovie)
       ]),
     );
   }
