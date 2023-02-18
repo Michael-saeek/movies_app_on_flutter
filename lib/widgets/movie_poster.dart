@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:peliculas_app/models/models.dart';
 
 class MoviePoster extends StatelessWidget {
+  final String titleMovie;
+  final String pathImage;
+
   const MoviePoster({
     super.key,
     required this.titleMovie,
-    required this.pathMovie,
+    required this.pathImage,
   });
-
-  final String titleMovie;
-  final String pathMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class MoviePoster extends StatelessWidget {
                 height: 180,
                 placeholder: const AssetImage('assets/no-image.jpg'),
                 fit: BoxFit.cover,
-                image: NetworkImage(pathMovie)),
+                image: NetworkImage(pathImage)),
           ),
         ),
         const SizedBox(
