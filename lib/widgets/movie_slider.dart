@@ -3,7 +3,7 @@ import 'package:peliculas_app/models/models.dart';
 import 'package:peliculas_app/widgets/widgets.dart';
 
 class MovieSlider extends StatefulWidget {
-  final List<Result> movies;
+  final List<ResultMovie> movies;
   final String titleCategory;
   final Function onNextPage;
 
@@ -23,6 +23,7 @@ class _MovieSliderState extends State<MovieSlider> {
 
   @override
   void initState() {
+    super.initState();
     scrollController.addListener(() {
       print(scrollController.position.pixels);
 
@@ -61,7 +62,10 @@ class _MovieSliderState extends State<MovieSlider> {
             itemBuilder: (context, int index) {
               final movie = widget.movies[index];
               return MoviePoster(
-                  titleMovie: movie.title, pathImage: movie.getLinkImage());
+                titleMovie: movie.title,
+                pathImage: movie.getLinkImage(),
+                movies: movie,
+              );
             },
           ),
         )

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:peliculas_app/models/models.dart';
 
 class MoviesProvider extends ChangeNotifier {
-  List<Item> displayMovies = [];
-  List<Result> popularMoviesData = [];
+  List<ResultMovie> displayMovies = [];
+  List<ResultMovie> popularMoviesData = [];
   int _popularPage = 0;
 
   MoviesProvider() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas_app/models/models.dart';
 import 'package:peliculas_app/widgets/widgets.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -6,20 +7,25 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String movie =
-        ModalRoute.of(context)?.settings.arguments.toString() ?? 'no-movie';
+    final ResultMovie movie =
+        ModalRoute.of(context)?.settings.arguments as ResultMovie;
+    print(movie.title);
 
     return Scaffold(
         body: CustomScrollView(
       slivers: [
-        _CustomAppBar(),
+        _CustomAppBar(
+          backdropPath: movie.getBackdropPath(),
+          titleMovie: movie.title,
+        ),
         SliverList(
           delegate: SliverChildListDelegate([
-            _PosterAddTitle(),
-            _Overview(),
-            _Overview(),
-            _Overview(),
-            _Overview(),
+            _PosterAddTitle(
+                imgPath: movie.getLinkImage(),
+                movieTitle: movie.title,
+                originalTitle: movie.originalTitle,
+                rating: movie.popularity),
+            _Overview(descriptionMovie: movie.overview),
             const CastingCards(),
           ]),
         ),
@@ -29,28 +35,43 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
+  final String backdropPath;
+  final String titleMovie;
+
+  const _CustomAppBar({required this.backdropPath, required this.titleMovie});
+
   @override
   Widget build(BuildContext context) {
-    return const SliverAppBar(
+    return SliverAppBar(
       backgroundColor: Colors.indigo,
       expandedHeight: 200,
       floating: false,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
-        titlePadding: EdgeInsets.symmetric(vertical: 0),
-        title: Text('Lucas Disney'),
+        titlePadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+        title: Text(titleMovie),
         background: FadeInImage(
             fit: BoxFit.cover,
-            placeholder: AssetImage('assets/loading.gif'),
-            image: NetworkImage(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBnIv__Hq9sG3BiuVHNo8pTAcZYjK0cxsYGRafYbKnZK9TH-XVS-q-zZihbQG-JnKS6Bk&usqp=CAU')),
+            placeholder: const AssetImage('assets/loading.gif'),
+            image: NetworkImage(backdropPath)),
       ),
     );
   }
 }
 
 class _PosterAddTitle extends StatelessWidget {
+  final String imgPath;
+  final String movieTitle;
+  final String originalTitle;
+  final double rating;
+
+  const _PosterAddTitle(
+      {required this.imgPath,
+      required this.movieTitle,
+      required this.originalTitle,
+      required this.rating});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -61,11 +82,10 @@ class _PosterAddTitle extends StatelessWidget {
       child: Row(children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: const FadeInImage(
+          child: FadeInImage(
               height: 150,
-              placeholder: AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzJM3ailUwp47AL2gPSwbFjtV75LH_KJq8zQ&usqp=CAU')),
+              placeholder: const AssetImage('assets/no-image.jpg'),
+              image: NetworkImage(imgPath)),
         ),
         const SizedBox(
           width: 20,
@@ -73,37 +93,37 @@ class _PosterAddTitle extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-                style: TextStyle(fontSize: 20),
+            Text(
+                style: const TextStyle(fontSize: 20),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                'Movie-title'),
-            const Text(
-                style: TextStyle(fontSize: 15),
+                movieTitle),
+            Text(
+                style: const TextStyle(fontSize: 15),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                'Subtitle'),
+                originalTitle),
             Row(
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.star_border_outlined,
                 ),
-                Icon(
+                const Icon(
                   Icons.star_border_outlined,
                 ),
-                Icon(
+                const Icon(
                   Icons.star_border_outlined,
                 ),
-                Icon(
+                const Icon(
                   Icons.star_border_outlined,
                 ),
-                Icon(
+                const Icon(
                   Icons.star_border_outlined,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(style: TextStyle(fontSize: 18), '7,0'),
+                Text(style: const TextStyle(fontSize: 18), rating.toString()),
               ],
             )
           ],
@@ -114,17 +134,22 @@ class _PosterAddTitle extends StatelessWidget {
 }
 
 class _Overview extends StatelessWidget {
+  final String descriptionMovie;
+
+  const _Overview({required this.descriptionMovie});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
-      child: const Text(
+      height: 200,
+      child: Text(
           textAlign: TextAlign.justify,
-          maxLines: 7,
+          maxLines: 15,
           overflow: TextOverflow.ellipsis,
-          'Duis non esse anim ut Lorem cupidatat ullamco eu amet. Duis non esse anim ut Lorem cupidatat ullamco eu amet. Duis non esse anim ut Lorem cupidatat ullamco eu amet. Duis non esse anim ut Lorem cupidatat ullamco eu amet.Duis non esse anim ut Lorem cupidatat ullamco eu amet. Duis non esse anim ut Lorem cupidatat ullamco eu amet.'),
+          descriptionMovie),
     );
   }
 }

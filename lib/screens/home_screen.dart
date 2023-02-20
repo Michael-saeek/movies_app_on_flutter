@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
           child: Column(children: [
-        CardSwiper(movies: moviesProvider.displayMovies),
+        CardSwiper(movies: moviesProvider.popularMoviesData),
         MovieSlider(
           movies: moviesProvider.popularMoviesData,
           titleCategory: 'Populares',
