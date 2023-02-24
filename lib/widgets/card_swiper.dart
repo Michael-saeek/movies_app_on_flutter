@@ -34,7 +34,7 @@ class CardSwiper extends StatelessWidget {
 
           return GestureDetector(
             onTap: () =>
-                Navigator.pushNamed(context, 'details', arguments: movies),
+                Navigator.pushNamed(context, 'details', arguments: movie),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: FadeInImage(

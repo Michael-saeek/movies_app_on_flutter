@@ -9,7 +9,6 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ResultMovie movie =
         ModalRoute.of(context)?.settings.arguments as ResultMovie;
-    print(movie.title);
 
     return Scaffold(
         body: CustomScrollView(
@@ -24,9 +23,11 @@ class DetailsScreen extends StatelessWidget {
                 imgPath: movie.getLinkImage(),
                 movieTitle: movie.title,
                 originalTitle: movie.originalTitle,
-                rating: movie.popularity),
+                rating: movie.voteAverage),
             _Overview(descriptionMovie: movie.overview),
-            const CastingCards(),
+            _Overview(descriptionMovie: movie.overview),
+            _Overview(descriptionMovie: movie.overview),
+            CastingCards(movie.id),
           ]),
         ),
       ],
@@ -74,62 +75,70 @@ class _PosterAddTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
-      //color: Colors.orange,
-      width: double.infinity,
-      margin: const EdgeInsets.only(top: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: FadeInImage(
-              height: 150,
-              placeholder: const AssetImage('assets/no-image.jpg'),
-              image: NetworkImage(imgPath)),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        //color: Colors.orange,
+        width: double.infinity,
+        margin: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
           children: [
-            Text(
-                style: const TextStyle(fontSize: 20),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                movieTitle),
-            Text(
-                style: const TextStyle(fontSize: 15),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                originalTitle),
-            Row(
-              children: [
-                const Icon(
-                  Icons.star_border_outlined,
-                ),
-                const Icon(
-                  Icons.star_border_outlined,
-                ),
-                const Icon(
-                  Icons.star_border_outlined,
-                ),
-                const Icon(
-                  Icons.star_border_outlined,
-                ),
-                const Icon(
-                  Icons.star_border_outlined,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(style: const TextStyle(fontSize: 18), rating.toString()),
-              ],
-            )
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: FadeInImage(
+                  height: 150,
+                  placeholder: const AssetImage('assets/no-image.jpg'),
+                  image: NetworkImage(imgPath)),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: size.width - 180),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        style: const TextStyle(fontSize: 20),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        movieTitle),
+                    Text(
+                        style: const TextStyle(fontSize: 15),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        originalTitle),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.star_border_outlined,
+                        ),
+                        const Icon(
+                          Icons.star_border_outlined,
+                        ),
+                        const Icon(
+                          Icons.star_border_outlined,
+                        ),
+                        const Icon(
+                          Icons.star_border_outlined,
+                        ),
+                        const Icon(
+                          Icons.star_border_outlined,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          style: const TextStyle(fontSize: 16),
+                          rating.toString(),
+                        ),
+                      ],
+                    ),
+                  ]),
+            ),
           ],
-        )
-      ]),
-    );
+        ));
   }
 }
 
@@ -144,10 +153,9 @@ class _Overview extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
-      height: 200,
       child: Text(
           textAlign: TextAlign.justify,
-          maxLines: 15,
+          maxLines: 30,
           overflow: TextOverflow.ellipsis,
           descriptionMovie),
     );
